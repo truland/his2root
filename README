@@ -1,9 +1,13 @@
+Fork of repo from C. Thornsberry
+This changes the histograms output as TH1F and TH2F instead of TH1I/TH2I because issues crop up when doing division 
+on integer based histograms even if cloned into float ones
+
 README for his2root and hisReader executables.
 November 12th, 2015
 Cory R. Thornsberry
 
 1) Getting the source
-	git clone https://github.com/cthornsb/his2root.git
+	git clone https://github.com/truland/his2root.git
 	This command will make a new directory named "his2root" in the current
 	directory.
 
