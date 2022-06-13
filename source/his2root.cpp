@@ -9,8 +9,8 @@
 
 #include "TNamed.h"
 #include "TFile.h"
-#include "TH1I.h"
-#include "TH2I.h"
+#include "TH1F.h"
+#include "TH2F.h"
 
 #include "hisFile.h"
 
@@ -127,7 +127,7 @@ int main(int argc, char *argv[]){
 			std::cout << std::endl;
 		}
 		if(his_file.GetDimension() == 1){
-			TH1I *h1 = his_file.GetTH1();
+			TH1F *h1 = his_file.GetTH1();
 			if(h1){
 				h1->Write();
 				h1->Delete();
@@ -135,7 +135,7 @@ int main(int argc, char *argv[]){
 			count++;
 		}
 		else if(his_file.GetDimension() == 2){
-			TH2I *h2 = his_file.GetTH2();
+			TH2F *h2 = his_file.GetTH2();
 			if(h2){
 				h2->Write();
 				h2->Delete();

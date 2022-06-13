@@ -4,8 +4,8 @@
 #include <fstream>
 #include <vector>
 
-class TH1I;
-class TH2I;
+class TH1F;
+class TH2F;
 
 /// Create a DAMM 1D histogram
 void hd1d_(int dammId, int nHalfWords, int rawlen, int histlen, int min, int max, const char *title, unsigned int length);
@@ -264,11 +264,11 @@ class HisFile{
 	/// Return a pointer to the histogram data storage object
 	HisData *GetData(){ return &data; }
 
-	/// Get a pointer to a root TH1I
-	TH1I *GetTH1(int hist_=-1);
+	/// Get a pointer to a root TH1F
+	TH1F *GetTH1(int hist_=-1);
 	
-	/// Get a pointer to a root TH2I
-	TH2I *GetTH2(int hist_=-1);
+	/// Get a pointer to a root TH2F
+	TH2F *GetTH2(int hist_=-1);
 
 	/// Get a drr entry from the vector
 	void GetEntry(size_t id_);

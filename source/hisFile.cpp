@@ -7,8 +7,8 @@
 #include <time.h>
 #include <math.h>
 
-#include "TH1I.h"
-#include "TH2I.h"
+#include "TH1F.h"
+#include "TH2F.h"
 
 #include "hisFile.h"
 
@@ -533,8 +533,8 @@ short HisFile::GetDimension(){
 	return current_entry->hisDim; 
 }
 
-/// Get a pointer to a root TH1I
-TH1I* HisFile::GetTH1(int hist_/*=-1*/){
+/// Get a pointer to a root TH1F
+TH1F* HisFile::GetTH1(int hist_/*=-1*/){
 	err_flag = 0; // Reset the error flag
 	if(hist_ == -1 && !current_entry){ 
 		err_flag = -1; 
@@ -556,20 +556,21 @@ TH1I* HisFile::GetTH1(int hist_/*=-1*/){
 	std::stringstream stream;
 	stream << "d" << current_entry->hisID;
 
-	TH1I *hist = new TH1I(stream.str().c_str(), rstrip(current_entry->title).c_str(), 
+	TH1F *hist = new TH1F(stream.str().c_str(), rstrip(current_entry->title).c_str(), 
 						  current_entry->total_bins, (double)current_entry->minc[0], (double)current_entry->maxc[0]+1);
 
 	// Fill the histogram bins
 	for(size_t x = 0; x < current_entry->total_bins; x++){
 		hist->SetBinContent(x+1, data[x]); 
+		hist->SetBinError(x+1,sqrt(data[x]));
 	}
 	hist->ResetStats(); // Update the histogram statistics to include new bin content
 
 	return hist;
 }
 
-/// Get a pointer to a root TH2I
-TH2I* HisFile::GetTH2(int hist_/*=-1*/){
+/// Get a pointer to a root TH2F
+TH2F* HisFile::GetTH2(int hist_/*=-1*/){
 	err_flag = 0; // Reset the error flag
 	if(hist_ == -1 && !current_entry){ 
 		err_flag = -1; 
@@ -591,7 +592,7 @@ TH2I* HisFile::GetTH2(int hist_/*=-1*/){
 	std::stringstream stream;
 	stream << "dd" << current_entry->hisID;
 
-	TH2I *hist = new TH2I(stream.str().c_str(), rstrip(current_entry->title).c_str(), 
+	TH2F *hist = new TH2F(stream.str().c_str(), rstrip(current_entry->title).c_str(), 
 						  current_entry->scaled[0], (double)current_entry->minc[0], (double)current_entry->maxc[0]+1,
 						  current_entry->scaled[1], (double)current_entry->minc[1], (double)current_entry->maxc[1]+1);
 
@@ -601,6 +602,7 @@ TH2I* HisFile::GetTH2(int hist_/*=-1*/){
 		for(unsigned int j = 0; j < (unsigned int)current_entry->scaled[0]; j++){ // x
 			current_entry->get_bin(j, i, bin);
 			hist->SetBinContent(hist->GetBin(j+1, i+1), data[bin]);
+			hist->SetBinError(hist->GetBin(j+1, i+1), sqrt(data[bin]));
 		}
 	}
 	hist->ResetStats(); // Update the histogram statistics to include new bin content
